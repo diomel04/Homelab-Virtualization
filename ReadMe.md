@@ -40,7 +40,7 @@ A self-hosted environment built to simulate enterprise infrastructure for hands-
 
 ## NETWORK DIAGRAM
 
-![](/Projects-and-HomeLabs/Home-Labs/Home-Lab-Infrastructure/img/netdiagram.png)
+![](/img/netdiagram.png)
 
 ## VLAN DESIGN & IP ADDRESSING
 
