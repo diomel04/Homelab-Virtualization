@@ -36,7 +36,7 @@ A self-hosted environment built to simulate enterprise infrastructure for hands-
 |pfSense|pfSense|Firewall/Router,VPN|1|2GB|50GB|
 |WinServer|Windows Server 2022|AD,DHCP|2|8GB|100G|
 |File-Server|TrueNas Scale|File-Server RAID 1 AD Integrated|2|4GB|500GB 
-|Zabbix|Zabbix|Network Monitoring|1|2GB|35GB|w
+|Zabbix|Zabbix|Monitoring|1|2GB|35GB|w
 
 ## NETWORK DIAGRAM
 
