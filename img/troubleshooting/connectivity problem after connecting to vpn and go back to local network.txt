@@ -1,0 +1,94 @@
+Problem
+
+After reopening the machine and powering the switch back on, inter-VLAN routing stopped working. Devices on VLAN 99 could not reach other VLANs (VLAN 10, 20, 30).
+
+Symptoms:
+
+* Could ping the default gateway (VLAN 99 SVI)
+* Internet/NAT was working normally
+* Could not ping any device on other VLANs
+
+
+Troubleshooting Steps
+
+Step 1 — Basic Client-Side Refresh
+
+```bash
+ipconfig /release
+ipconfig /renew
+```
+
+Result: No change. This only refreshes the DHCP lease and does not affect routing.
+
+Step 2 — Verify SVI Status on SG300
+
+```bash
+Switch# show ip interface
+```
+
+![]()
+
+Results: All SVIs were UP/UP and Valid
+
+Switch routing was confirmed working — not the root cause.
+
+Step 3: Ping Test from Switch
+
+Pinged devices on other VLANs directly from SG300:
+
+![]()
+
+Result: All pings successful from the switch. Confirmed the issue is client-side, not the switch.
+
+Step 4: Check Windows Route Table
+
+``bash
+route print
+```
+
+![]()
+
+Result: Found incorrect routes injected by VPN client
+
+Traffic destined for local VLANs was being redirected through 100.100.100.100 (Tailscale VPN interface) instead of being routed locally by the SG300.
+
+
+Root Cause
+When the VPN client (Tailscale) connected, it injected static routes for the 172.16.0.0/16 subnets into the Windows routing table, pointing to the VPN tunnel interface (100.100.100.100). These routes overrode the local SG300 routes, causing inter-VLAN traffic to be sent down the VPN tunnel instead of staying on the local network.
+
+
+Resolution
+Immediate Fix — Remove incorrect routes manually:
+
+```bash
+route delete 172.16.1.0
+route delete 172.16.8.0
+route delete 172.16.20.0
+route delete 172.16.30.0
+```
+
+After deleting the routes, inter-VLAN routing was restored immediately.
+
+Permanent Fix — Configure Split Tunneling on Tailscale
+Edit the Tailscale client config and set AllowedIPs to only route VPN-specific traffic, not local subnets:
+
+[Peer]
+PublicKey = <server-public-key>
+Endpoint = <server-ip>:<port>
+
+# Only route VPN subnet through tunnel — NOT local 172.16.x.x
+AllowedIPs = 10.0.0.0/24
+
+
+⚠️ Do NOT include 172.16.0.0/16 or 0.0.0.0/0 in AllowedIPs unless you intend to route ALL traffic through the VPN (full tunnel). This would conflict with local VLAN routing.
+
+
+
+Key Takeaways
+
+* Always run route print early when diagnosing connectivity issues — the Windows routing table reveals a lot
+* VPN clients can silently inject routes that conflict with local network routing
+* SVIs being UP/UP on the switch does not guarantee end-to-end connectivity if the client routing table is misconfigured
+* Split tunneling is the correct VPN configuration for homelab environments where local VLAN traffic should stay local
+
+

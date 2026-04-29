@@ -1,4 +1,4 @@
-# TrueNas Scale File Server integrated with Active Directory
+# Homelab Documentation: TrueNas Scale File Server integrated with Active Directory
 
 
 ## Overview 
