@@ -51,3 +51,17 @@ A self-hosted environment built to simulate enterprise infrastructure for hands-
 |Servers|30|172.16.30.1|/28|255.255.255.240| Servers AD,DHCP,DNS & File Server
 |Management|99|172.16.99.1|/29|255.255.255.248|Admin Access, Management|
 
+## FUTURE UPDATES
+
+This homelab is actively maintained and will continue to evolve with new features and improvements as skills and hardware allow.
+
+**Planned Upgrades**
+
+* pfSense IDS/IPS — enable Snort or Suricata on pfSense for intrusion detection
+* Fail2Ban — protect exposed services from brute force attacks
+* Syslog Server — centralize logs from pfSense, SG300, and Windows Server
+* GPO (Group Policy) — enforce desktop policies, password rules, software restrictions
+* QoS Policies — prioritize traffic on pfSense
+* Redundant Links — add two switches for RSTP
+* IPv6 Deployment — configure IPv6 addressing across all VLANs
+* RADIUS (NPS) — centralized authentication for VPN, Wi-Fi, and network device login via Windows Server Network Policy Server integrated with Active Directory
