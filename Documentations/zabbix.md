@@ -233,3 +233,23 @@ You can go to `Data Collection -> Host` you should see the greenbox on the colum
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

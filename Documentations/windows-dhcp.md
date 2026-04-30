@@ -40,5 +40,29 @@ you should see your ip address there and computer name.
 
 ![](/img/ipaddser.png)
 
-
 **NOTE:** Make sure you already configured the switch IP Helper.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
